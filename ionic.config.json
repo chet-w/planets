@@ -1,0 +1,7 @@
+{
+  "name": "planets",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

@@ -1,7 +1,5 @@
 {
-  "name": "planets",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular"
+  "name": "planets2",
+  "integrations": {},
+  "type": "angular"
 }

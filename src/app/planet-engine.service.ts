@@ -9,9 +9,9 @@ export class PlanetEngineService {
   private renderer: THREE.WebGLRenderer;
   private camera: THREE.PerspectiveCamera;
   private scene: THREE.Scene;
-  private light: THREE.AmbientLight;
+  private light: THREE.DirectionalLight;
 
-  private cube: THREE.Mesh;
+  private sphere: THREE.Mesh;
 
   createScene(elementId: string): void {
     // The first step is to get the reference of the canvas element from our HTML document
@@ -34,14 +34,21 @@ export class PlanetEngineService {
     this.scene.add(this.camera);
 
     // soft white light
-    this.light = new THREE.AmbientLight( 0x404040 );
-    this.light.position.z = 10;
+    this.light = new THREE.DirectionalLight( 0xffffff, 1);
+    this.light.position.set(-1, 2, 4);
     this.scene.add(this.light);
+    // this.light = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+    // this.light.color.setHSL( 0.6, 1, 0.6 );
+    // this.light.groundColor.setHSL( 0.095, 1, 0.75 );
+    // this.light.position.set( 0, 50, 0 );
+    // this.scene.add(this.light);
 
-    let geometry = new THREE.BoxGeometry(1, 1, 1);
-    let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    this.cube = new THREE.Mesh( geometry, material );
-    this.scene.add(this.cube);
+
+    const texture = new THREE.TextureLoader().load("/assets/img/textures/jupiter.jpg");
+    let geometry = new THREE.SphereGeometry(1.5, 32, 32)
+    let material = new THREE.MeshPhongMaterial({ map: texture });
+    this.sphere = new THREE.Mesh( geometry, material );
+    this.scene.add(this.sphere);
 
   }
 
@@ -60,8 +67,7 @@ export class PlanetEngineService {
       this.render();
     });
 
-    this.cube.rotation.x += 0.01;
-    this.cube.rotation.y += 0.01;
+    this.sphere.rotation.y += 0.005;
     this.renderer.render(this.scene, this.camera);
   }
 

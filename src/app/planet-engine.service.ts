@@ -37,12 +37,9 @@ export class PlanetEngineService {
     this.light = new THREE.DirectionalLight( 0xffffff, 1);
     this.light.position.set(-1, 2, 4);
     this.scene.add(this.light);
-    // this.light = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-    // this.light.color.setHSL( 0.6, 1, 0.6 );
-    // this.light.groundColor.setHSL( 0.095, 1, 0.75 );
-    // this.light.position.set( 0, 50, 0 );
-    // this.scene.add(this.light);
 
+    let planets = [];
+    planets = this.makeAllPlanets()
 
     const texture = new THREE.TextureLoader().load("/assets/img/textures/jupiter.jpg");
     let geometry = new THREE.SphereGeometry(1.5, 32, 32)
@@ -79,5 +76,9 @@ export class PlanetEngineService {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize( width, height );
+  }
+
+  makeAllPlanets() {
+    
   }
 }

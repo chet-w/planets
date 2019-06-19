@@ -11,7 +11,7 @@ export class PlanetEngineService {
   private scene: THREE.Scene;
   private light: THREE.DirectionalLight;
 
-  private sphere: THREE.Mesh;
+  private spheres: THREE.Mesh[] = [];
 
   createScene(elementId: string): void {
     // The first step is to get the reference of the canvas element from our HTML document
@@ -38,15 +38,7 @@ export class PlanetEngineService {
     this.light.position.set(-1, 2, 4);
     this.scene.add(this.light);
 
-    let planets = [];
-    planets = this.makeAllPlanets()
-
-    const texture = new THREE.TextureLoader().load("/assets/img/textures/jupiter.jpg");
-    let geometry = new THREE.SphereGeometry(1.5, 32, 32)
-    let material = new THREE.MeshPhongMaterial({ map: texture });
-    this.sphere = new THREE.Mesh( geometry, material );
-    this.scene.add(this.sphere);
-
+    this.makeAllPlanets()
   }
 
   animate(): void {
@@ -64,7 +56,9 @@ export class PlanetEngineService {
       this.render();
     });
 
-    this.sphere.rotation.y += 0.005;
+    this.spheres.map(sphere => {
+      sphere.rotation.y += 0.005;
+    });
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -79,6 +73,25 @@ export class PlanetEngineService {
   }
 
   makeAllPlanets() {
+    const planets: Array<{ name: string, size: number }> = [
+      { name: "mercury", size: 0.5 },
+      { name: "venus", size: 0.8 },
+      { name: "earth", size: 0.8 },
+      { name: "mars", size: 0.6 },
+      { name: "jupiter", size: 1.5 },
+      { name: "saturn", size: 1.3 },
+      { name: "uranus", size: 1.2 },
+      { name: "neptune", size: 1.1 }
+    ];
     
+    planets.map((planet, index) => {
+      const texture = new THREE.TextureLoader().load("/assets/img/textures/" + planet.name + ".jpg");
+      let geometry = new THREE.SphereGeometry(planet.size, 32, 32)
+      let material = new THREE.MeshPhongMaterial({ map: texture });
+      const mesh = new THREE.Mesh( geometry, material );
+      this.spheres.push(mesh);
+      this.scene.add(mesh);
+      mesh.position.set(0, 1.5 * -index, 0);
+    })
   }
 }

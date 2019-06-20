@@ -15,6 +15,8 @@ export class ListPage implements OnInit {
   ngOnInit() {
     this.planetEngineService.createScene("planet");
     this.planetEngineService.render();
+    this.planetEngineService.animate();
+
   }
   // add back when alpha.4 is out
   // navigate(item) {
